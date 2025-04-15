@@ -3,12 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Minha IA com Chatbase</title>
+  <title>Zurry AI</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #1e1e1e;
+      width: 100%;
+      padding: 20px;
+      text-align: center;
+      font-size: 2rem;
+      border-bottom: 1px solid #333;
+    }
+
+    footer {
+      margin-top: 30px;
+      padding: 10px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+  </style>
 </head>
 <body>
-  <h1>Bem-vindo ao meu site com IA integrada!</h1>
 
-  <!-- Código do Chatbase -->
+  <header>🤖 Zurry AI</header>
+
+  <!-- IA do Chatbase -->
   <script>
     (function () {
       if (
@@ -33,7 +64,7 @@
       const onLoad = function () {
         const script = document.createElement("script");
         script.src = "https://www.chatbase.co/embed.min.js";
-        script.id = "pYkrGozKMlxLrqqNZseoX";
+        script.id = "pYkrGozKMlxLrqqNZseoX"; // <- NÃO MUDE ISSO!
         script.domain = "www.chatbase.co";
         document.body.appendChild(script);
       };
@@ -44,5 +75,7 @@
       }
     })();
   </script>
+
+  <footer>Feito por você — grátis e estiloso 💻</footer>
 </body>
 </html>
