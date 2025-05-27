@@ -231,6 +231,80 @@
             text-decoration: underline;
         }
         
+        /* Painel Admin */
+        .admin-panel {
+            display: none;
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .admin-panel h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .admin-nav {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .admin-nav button {
+            padding: 10px 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .admin-nav button.active {
+            border-bottom: 3px solid var(--primary);
+            font-weight: bold;
+        }
+        
+        .admin-content {
+            display: none;
+        }
+        
+        .admin-content.active {
+            display: block;
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .admin-table th, .admin-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .admin-table th {
+            background-color: #f2f2f2;
+        }
+        
+        .btn {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
         /* Restante do CSS permanece igual */
         /* ... (mantenha todo o restante do CSS anterior) ... */
         
@@ -260,6 +334,7 @@
             
             <div class="user-actions flex">
                 <a href="#" id="login-btn"><i class="fas fa-user"></i> Entrar</a>
+                <a href="#" id="admin-btn" style="display: none;"><i class="fas fa-cog"></i> Painel Admin</a>
                 <a href="#"><i class="fas fa-heart"></i> Favoritos</a>
                 <a href="#" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
@@ -335,8 +410,211 @@
         </div>
     </div>
     
-    <!-- Restante do conteúdo permanece igual -->
-    <!-- ... (mantenha todo o restante do HTML anterior) ... -->
+    <!-- Modal do Painel Admin -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content" style="max-width: 900px;">
+            <span class="close-modal" id="closeAdminModal">&times;</span>
+            <h2><i class="fas fa-cog"></i> Painel Administrativo</h2>
+            
+            <div class="admin-nav">
+                <button class="active" data-tab="products">Produtos</button>
+                <button data-tab="orders">Pedidos</button>
+                <button data-tab="coupons">Cupons</button>
+                <button data-tab="stats">Estatísticas</button>
+            </div>
+            
+            <div class="admin-content active" id="products-content">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <h3>Todos os Produtos</h3>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i> Adicionar Produto</button>
+                </div>
+                
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Produto</th>
+                            <th>Preço</th>
+                            <th>Estoque</th>
+                            <th>Vendas</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1001</td>
+                            <td>Fone Bluetooth</td>
+                            <td>R$ 89,90</td>
+                            <td>45</td>
+                            <td>120</td>
+                            <td>
+                                <button class="btn btn-primary"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1002</td>
+                            <td>Smartwatch</td>
+                            <td>R$ 199,90</td>
+                            <td>32</td>
+                            <td>85</td>
+                            <td>
+                                <button class="btn btn-primary"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1003</td>
+                            <td>Caixa de Som</td>
+                            <td>R$ 149,90</td>
+                            <td>18</td>
+                            <td>64</td>
+                            <td>
+                                <button class="btn btn-primary"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="admin-content" id="orders-content">
+                <h3>Últimos Pedidos</h3>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Nº Pedido</th>
+                            <th>Cliente</th>
+                            <th>Valor</th>
+                            <th>Status</th>
+                            <th>Data</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#2001</td>
+                            <td>João Silva</td>
+                            <td>R$ 289,80</td>
+                            <td><span style="color: var(--success);">Entregue</span></td>
+                            <td>10/05/2023</td>
+                            <td>
+                                <button class="btn btn-primary"><i class="fas fa-eye"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#2002</td>
+                            <td>Maria Souza</td>
+                            <td>R$ 149,90</td>
+                            <td><span style="color: orange;">Em transporte</span></td>
+                            <td>12/05/2023</td>
+                            <td>
+                                <button class="btn btn-primary"><i class="fas fa-eye"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="admin-content" id="coupons-content">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <h3>Cupons de Desconto</h3>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i> Criar Cupom</button>
+                </div>
+                
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Desconto</th>
+                            <th>Validade</th>
+                            <th>Usos</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>MEGA20</td>
+                            <td>20%</td>
+                            <td>31/12/2023</td>
+                            <td>45/100</td>
+                            <td><span style="color: var(--success);">Ativo</span></td>
+                            <td>
+                                <button class="btn btn-primary"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>FRETE10</td>
+                            <td>Frete Grátis</td>
+                            <td>15/06/2023</td>
+                            <td>12/50</td>
+                            <td><span style="color: var(--success);">Ativo</span></td>
+                            <td>
+                                <button class="btn btn-primary"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="admin-content" id="stats-content">
+                <h3>Estatísticas de Vendas</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px;">
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center;">
+                        <h4>Total de Vendas</h4>
+                        <p style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">R$ 12.458,70</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center;">
+                        <h4>Pedidos Hoje</h4>
+                        <p style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">24</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center;">
+                        <h4>Produtos em Estoque</h4>
+                        <p style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">156</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <h4>Vendas nos últimos 7 dias</h4>
+                    <div style="height: 200px; background: #f8f9fa; margin-top: 15px; display: flex; align-items: flex-end; padding: 10px;">
+                        <div style="flex: 1; display: flex; justify-content: center; align-items: flex-end;">
+                            <div style="width: 30px; background: var(--primary); height: 30%; margin: 0 5px;"></div>
+                        </div>
+                        <div style="flex: 1; display: flex; justify-content: center; align-items: flex-end;">
+                            <div style="width: 30px; background: var(--primary); height: 50%; margin: 0 5px;"></div>
+                        </div>
+                        <div style="flex: 1; display: flex; justify-content: center; align-items: flex-end;">
+                            <div style="width: 30px; background: var(--primary); height: 70%; margin: 0 5px;"></div>
+                        </div>
+                        <div style="flex: 1; display: flex; justify-content: center; align-items: flex-end;">
+                            <div style="width: 30px; background: var(--primary); height: 90%; margin: 0 5px;"></div>
+                        </div>
+                        <div style="flex: 1; display: flex; justify-content: center; align-items: flex-end;">
+                            <div style="width: 30px; background: var(--primary); height: 60%; margin: 0 5px;"></div>
+                        </div>
+                        <div style="flex: 1; display: flex; justify-content: center; align-items: flex-end;">
+                            <div style="width: 30px; background: var(--primary); height: 40%; margin: 0 5px;"></div>
+                        </div>
+                        <div style="flex: 1; display: flex; justify-content: center; align-items: flex-end;">
+                            <div style="width: 30px; background: var(--primary); height: 80%; margin: 0 5px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Conteúdo Principal -->
+    <main class="container">
+        <!-- Conteúdo normal do site aqui -->
+        <div style="height: 1000px; padding: 20px;">
+            <h2>Bem-vindo ao MegaDeals!</h2>
+            <p>As melhores ofertas você encontra aqui.</p>
+        </div>
+    </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -346,12 +624,21 @@
             const closeLoginModal = document.getElementById('closeLoginModal');
             const loginForm = document.getElementById('loginForm');
             const showRegister = document.getElementById('showRegister');
+            const adminBtn = document.getElementById('admin-btn');
             
             // Elementos do modal de cadastro
             const registerModal = document.getElementById('registerModal');
             const closeRegisterModal = document.getElementById('closeRegisterModal');
             const registerForm = document.getElementById('registerForm');
             const showLogin = document.getElementById('showLogin');
+            
+            // Elementos do modal admin
+            const adminModal = document.getElementById('adminModal');
+            const closeAdminModal = document.getElementById('closeAdminModal');
+            
+            // Credenciais do admin
+            const ADMIN_EMAIL = "acdef0612@gmail.com";
+            const ADMIN_PASSWORD = "mamutipa08";
             
             // Abrir modal de login
             loginBtn.addEventListener('click', function(e) {
@@ -383,6 +670,17 @@
                 loginModal.style.display = 'flex';
             });
             
+            // Abrir modal admin
+            adminBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                adminModal.style.display = 'flex';
+            });
+            
+            // Fechar modal admin
+            closeAdminModal.addEventListener('click', function() {
+                adminModal.style.display = 'none';
+            });
+            
             // Fechar modais ao clicar fora
             window.addEventListener('click', function(e) {
                 if (e.target === loginModal) {
@@ -391,6 +689,26 @@
                 if (e.target === registerModal) {
                     registerModal.style.display = 'none';
                 }
+                if (e.target === adminModal) {
+                    adminModal.style.display = 'none';
+                }
+            });
+            
+            // Navegação no painel admin
+            const adminNavButtons = document.querySelectorAll('.admin-nav button');
+            adminNavButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons and content
+                    adminNavButtons.forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.admin-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-content`).classList.add('active');
+                });
             });
             
             // Processar formulário de login
@@ -406,13 +724,25 @@
                     return;
                 }
                 
-                // Simulação de login bem-sucedido
-                console.log('Login com:', email, password);
-                alert('Login realizado com sucesso!');
-                loginModal.style.display = 'none';
-                
-                // Atualizar interface do usuário
-                loginBtn.innerHTML = '<i class="fas fa-user-check"></i> Minha Conta';
+                // Verificar se é admin
+                if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                    alert('Login administrativo realizado com sucesso!');
+                    loginModal.style.display = 'none';
+                    
+                    // Mostrar botão do painel admin
+                    adminBtn.style.display = 'inline-block';
+                    loginBtn.style.display = 'none';
+                    
+                    // Atualizar interface do usuário
+                    loginBtn.innerHTML = '<i class="fas fa-user-check"></i> Minha Conta';
+                } else {
+                    // Simulação de login normal bem-sucedido
+                    alert('Login realizado com sucesso!');
+                    loginModal.style.display = 'none';
+                    
+                    // Atualizar interface do usuário
+                    loginBtn.innerHTML = '<i class="fas fa-user-check"></i> Minha Conta';
+                }
             });
             
             // Processar formulário de cadastro
