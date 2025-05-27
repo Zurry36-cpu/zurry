@@ -14,6 +14,8 @@
             --gray: #E0E0E0;
             --success: #4CAF50;
             --danger: #F44336;
+            --warning: #FFC107;
+            --info: #2196F3;
         }
         
         * {
@@ -250,6 +252,7 @@
             display: flex;
             margin-bottom: 20px;
             border-bottom: 1px solid #ddd;
+            overflow-x: auto;
         }
         
         .admin-nav button {
@@ -258,6 +261,7 @@
             border: none;
             cursor: pointer;
             border-bottom: 3px solid transparent;
+            white-space: nowrap;
         }
         
         .admin-nav button.active {
@@ -276,6 +280,7 @@
         .admin-table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 20px;
         }
         
         .admin-table th, .admin-table td {
@@ -286,6 +291,7 @@
         
         .admin-table th {
             background-color: #f2f2f2;
+            font-weight: 600;
         }
         
         .btn {
@@ -293,6 +299,12 @@
             border-radius: 4px;
             border: none;
             cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-sm {
+            padding: 5px 8px;
+            font-size: 0.8rem;
         }
         
         .btn-primary {
@@ -300,9 +312,35 @@
             color: white;
         }
         
+        .btn-primary:hover {
+            background-color: #e05a00;
+        }
+        
         .btn-danger {
             background-color: var(--danger);
             color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #388e3c;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+        
+        .btn-warning:hover {
+            background-color: #ffb300;
         }
         
         .status-badge {
@@ -310,11 +348,57 @@
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 500;
+            display: inline-block;
         }
         
         .status-processing {
             background-color: #e3f2fd;
             color: #1565c0;
+        }
+        
+        .status-pending {
+            background-color: #fff3e0;
+            color: #e65100;
+        }
+        
+        .status-shipped {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .trending-badge {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 20px;
+        }
+        
+        .pagination-btn {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .pagination-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .pagination-btn:hover:not(.active) {
+            background-color: #f5f5f5;
         }
         
         /* Responsividade */
@@ -337,6 +421,16 @@
                 width: 100%;
                 justify-content: space-around;
                 margin-top: 10px;
+            }
+            
+            .modal-content {
+                margin: 0 15px;
+            }
+            
+            .admin-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
             }
         }
     </style>
@@ -443,66 +537,25 @@
     
     <!-- Modal do Painel Admin -->
     <div class="modal" id="adminModal">
-        <div class="modal-content" style="max-width: 900px;">
+        <div class="modal-content" style="max-width: 1000px; padding: 20px;">
             <span class="close-modal" id="closeAdminModal">&times;</span>
-            <h2><i class="fas fa-cog"></i> Painel Administrativo</h2>
+            <h2 style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-cog"></i> Painel Administrativo
+                <span style="font-size: 0.8rem; background: var(--primary); color: white; padding: 3px 8px; border-radius: 20px;">Admin</span>
+            </h2>
             
             <div class="admin-nav">
-                <button class="active" data-tab="products">Produtos</button>
-                <button data-tab="orders">Pedidos</button>
-                <button data-tab="coupons">Cupons</button>
-            </div>
-            
-            <!-- Conteúdo de Pedidos -->
-            <div class="admin-content active" id="orders-content">
-                <div style="margin-bottom: 20px;">
-                    <h3>Último Pedido</h3>
-                </div>
-                
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Nº Pedido</th>
-                            <th>Cliente</th>
-                            <th>Itens</th>
-                            <th>Valor</th>
-                            <th>Status</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#20230515-001</td>
-                            <td>
-                                <div>João Silva</div>
-                                <div style="font-size: 0.8rem; color: #666;">joao.silva@email.com</div>
-                            </td>
-                            <td>
-                                <div>• Fone Bluetooth (2x)</div>
-                                <div>• Capa para Celular (1x)</div>
-                            </td>
-                            <td>
-                                <div>R$ 189,80</div>
-                                <div style="font-size: 0.8rem;">Frete: R$ 15,90</div>
-                                <div style="font-size: 0.8rem; color: var(--primary);">Total: R$ 205,70</div>
-                            </td>
-                            <td>
-                                <span class="status-badge status-processing">Processando</span>
-                                <div style="font-size: 0.8rem; margin-top: 5px;">Atualizado: 15/05 14:30</div>
-                            </td>
-                            <td>
-                                <button class="btn btn-primary" title="Ver detalhes"><i class="fas fa-eye"></i></button>
-                                <button class="btn btn-danger" title="Cancelar"><i class="fas fa-times"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <button class="active" data-tab="products"><i class="fas fa-box"></i> Produtos</button>
+                <button data-tab="trending"><i class="fas fa-fire"></i> Em Alta</button>
+                <button data-tab="orders"><i class="fas fa-shopping-bag"></i> Pedidos</button>
+                <button data-tab="coupons"><i class="fas fa-tag"></i> Cupons</button>
             </div>
             
             <!-- Conteúdo de Produtos -->
-            <div class="admin-content" id="products-content">
-                <div style="margin-bottom: 20px;">
-                    <h3>Produtos em Destaque</h3>
+            <div class="admin-content active" id="products-content">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <h3>Todos os Produtos</h3>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i> Adicionar Produto</button>
                 </div>
                 
                 <table class="admin-table">
@@ -512,6 +565,7 @@
                             <th>Produto</th>
                             <th>Preço</th>
                             <th>Estoque</th>
+                            <th>Status</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -521,13 +575,154 @@
                             <td>Fone Bluetooth</td>
                             <td>R$ 89,90</td>
                             <td>45</td>
+                            <td><span class="status-badge status-processing">Ativo</span></td>
                             <td>
-                                <button class="btn btn-primary"><i class="fas fa-edit"></i></button>
-                                <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button class="btn btn-primary btn-sm" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger btn-sm" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1002</td>
+                            <td>Smartwatch</td>
+                            <td>R$ 199,90</td>
+                            <td>32</td>
+                            <td><span class="status-badge status-processing">Ativo</span></td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger btn-sm" title="Excluir"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                
+                <div class="pagination">
+                    <button class="pagination-btn"><i class="fas fa-angle-left"></i></button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn"><i class="fas fa-angle-right"></i></button>
+                </div>
+            </div>
+            
+            <!-- Conteúdo de Produtos em Alta -->
+            <div class="admin-content" id="trending-content">
+                <div style="margin-bottom: 20px;">
+                    <h3>Produtos em Alta</h3>
+                    <p style="color: #666; font-size: 0.9rem;">Produtos mais vendidos na última semana</p>
+                </div>
+                
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Posição</th>
+                            <th>Produto</th>
+                            <th>Vendas</th>
+                            <th>Receita</th>
+                            <th>Crescimento</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <div>Fone Bluetooth</div>
+                                <div style="font-size: 0.8rem; color: #666;">ID: 1001</div>
+                                <span class="trending-badge">TOP 1</span>
+                            </td>
+                            <td>48 vendas</td>
+                            <td>R$ 4.315,20</td>
+                            <td style="color: var(--success); font-weight: bold;">+25%</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" title="Ver detalhes"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-warning btn-sm" title="Promover"><i class="fas fa-bullhorn"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <div>Smartwatch</div>
+                                <div style="font-size: 0.8rem; color: #666;">ID: 1002</div>
+                            </td>
+                            <td>32 vendas</td>
+                            <td>R$ 6.396,80</td>
+                            <td style="color: var(--success); font-weight: bold;">+15%</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" title="Ver detalhes"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-warning btn-sm" title="Promover"><i class="fas fa-bullhorn"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>
+                                <div>Caixa de Som Portátil</div>
+                                <div style="font-size: 0.8rem; color: #666;">ID: 1003</div>
+                            </td>
+                            <td>25 vendas</td>
+                            <td>R$ 3.747,50</td>
+                            <td style="color: var(--danger); font-weight: bold;">-5%</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" title="Ver detalhes"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-warning btn-sm" title="Promover"><i class="fas fa-bullhorn"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="margin-top: 20px; background-color: #f5f5f5; padding: 15px; border-radius: 8px;">
+                    <h4 style="margin-bottom: 10px;">Estatísticas Rápidas</h4>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                        <div style="background: white; padding: 10px; border-radius: 6px;">
+                            <div style="font-size: 0.9rem; color: #666;">Total Vendas</div>
+                            <div style="font-size: 1.2rem; font-weight: bold;">105</div>
+                        </div>
+                        <div style="background: white; padding: 10px; border-radius: 6px;">
+                            <div style="font-size: 0.9rem; color: #666;">Receita Total</div>
+                            <div style="font-size: 1.2rem; font-weight: bold;">R$ 14.459,50</div>
+                        </div>
+                        <div style="background: white; padding: 10px; border-radius: 6px;">
+                            <div style="font-size: 0.9rem; color: #666;">Crescimento</div>
+                            <div style="font-size: 1.2rem; font-weight: bold; color: var(--success);">+12%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Conteúdo de Pedidos -->
+            <div class="admin-content" id="orders-content">
+                <div style="margin-bottom: 20px;">
+                    <h3>Últimos Pedidos</h3>
+                </div>
+                
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Nº Pedido</th>
+                            <th>Cliente</th>
+                            <th>Valor</th>
+                            <th>Status</th>
+                            <th>Data</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#20230515-001</td>
+                            <td>João Silva</td>
+                            <td>R$ 205,70</td>
+                            <td><span class="status-badge status-processing">Processando</span></td>
+                            <td>15/05/2023</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" title="Ver detalhes"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-danger btn-sm" title="Cancelar"><i class="fas fa-times"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="pagination">
+                    <button class="pagination-btn"><i class="fas fa-angle-left"></i></button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn"><i class="fas fa-angle-right"></i></button>
+                </div>
             </div>
             
             <!-- Conteúdo de Cupons -->
@@ -542,6 +737,7 @@
                             <th>Código</th>
                             <th>Desconto</th>
                             <th>Validade</th>
+                            <th>Status</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -550,13 +746,20 @@
                             <td>MEGA20</td>
                             <td>20%</td>
                             <td>31/12/2023</td>
+                            <td><span class="status-badge status-processing">Ativo</span></td>
                             <td>
-                                <button class="btn btn-primary"><i class="fas fa-edit"></i></button>
-                                <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button class="btn btn-primary btn-sm" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger btn-sm" title="Excluir"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                
+                <div class="pagination">
+                    <button class="pagination-btn"><i class="fas fa-angle-left"></i></button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn"><i class="fas fa-angle-right"></i></button>
+                </div>
             </div>
         </div>
     </div>
