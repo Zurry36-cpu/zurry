@@ -133,7 +133,7 @@
             justify-content: center;
         }
         
-        /* Modal de Login */
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -199,7 +199,7 @@
             outline: none;
         }
         
-        .login-btn {
+        .form-btn {
             width: 100%;
             padding: 12px;
             background-color: var(--primary);
@@ -212,77 +212,23 @@
             transition: background-color 0.3s;
         }
         
-        .login-btn:hover {
+        .form-btn:hover {
             background-color: #e05a00;
         }
         
-        .login-options {
+        .form-options {
             margin-top: 20px;
             text-align: center;
         }
         
-        .login-options a {
+        .form-options a {
             color: var(--primary);
             text-decoration: none;
             font-size: 0.9rem;
         }
         
-        .login-options a:hover {
+        .form-options a:hover {
             text-decoration: underline;
-        }
-        
-        .divider {
-            margin: 20px 0;
-            text-align: center;
-            position: relative;
-            color: #777;
-        }
-        
-        .divider::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background-color: var(--gray);
-            z-index: -1;
-        }
-        
-        .divider span {
-            background-color: white;
-            padding: 0 10px;
-        }
-        
-        .social-login {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .social-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-        
-        .facebook {
-            background-color: #3b5998;
-        }
-        
-        .google {
-            background-color: #db4437;
-        }
-        
-        .apple {
-            background-color: #000;
         }
         
         /* Restante do CSS permanece igual */
@@ -326,7 +272,7 @@
     <!-- Modal de Login -->
     <div class="modal" id="loginModal">
         <div class="modal-content">
-            <span class="close-modal" id="closeModal">&times;</span>
+            <span class="close-modal" id="closeLoginModal">&times;</span>
             <h2>Entrar na sua conta</h2>
             
             <form id="loginForm">
@@ -340,31 +286,51 @@
                     <input type="password" id="password" placeholder="Digite sua senha" required>
                 </div>
                 
-                <button type="submit" class="login-btn">Entrar</button>
+                <button type="submit" class="form-btn">Entrar</button>
             </form>
             
-            <div class="login-options">
-                <a href="#">Esqueceu sua senha?</a>
+            <div class="form-options">
+                <a href="#" id="forgot-password">Esqueceu sua senha?</a>
             </div>
             
-            <div class="divider">
-                <span>ou</span>
+            <div class="form-options">
+                Não tem uma conta? <a href="#" id="showRegister">Cadastre-se</a>
             </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Cadastro -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeRegisterModal">&times;</span>
+            <h2>Criar nova conta</h2>
             
-            <div class="social-login">
-                <div class="social-btn facebook">
-                    <i class="fab fa-facebook-f"></i>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="reg-name">Nome completo</label>
+                    <input type="text" id="reg-name" placeholder="Digite seu nome completo" required>
                 </div>
-                <div class="social-btn google">
-                    <i class="fab fa-google"></i>
+                
+                <div class="form-group">
+                    <label for="reg-email">E-mail</label>
+                    <input type="email" id="reg-email" placeholder="Digite seu e-mail" required>
                 </div>
-                <div class="social-btn apple">
-                    <i class="fab fa-apple"></i>
+                
+                <div class="form-group">
+                    <label for="reg-password">Senha</label>
+                    <input type="password" id="reg-password" placeholder="Crie uma senha (mínimo 6 caracteres)" required minlength="6">
                 </div>
-            </div>
+                
+                <div class="form-group">
+                    <label for="reg-confirm-password">Confirmar senha</label>
+                    <input type="password" id="reg-confirm-password" placeholder="Digite a senha novamente" required>
+                </div>
+                
+                <button type="submit" class="form-btn">Criar conta</button>
+            </form>
             
-            <div class="login-options" style="margin-top: 30px;">
-                Não tem uma conta? <a href="#">Cadastre-se</a>
+            <div class="form-options">
+                Já tem uma conta? <a href="#" id="showLogin">Entrar</a>
             </div>
         </div>
     </div>
@@ -373,28 +339,57 @@
     <!-- ... (mantenha todo o restante do HTML anterior) ... -->
 
     <script>
-        // JavaScript para controlar o modal de login
         document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('loginModal');
+            // Elementos do modal de login
+            const loginModal = document.getElementById('loginModal');
             const loginBtn = document.getElementById('login-btn');
-            const closeModal = document.getElementById('closeModal');
+            const closeLoginModal = document.getElementById('closeLoginModal');
             const loginForm = document.getElementById('loginForm');
+            const showRegister = document.getElementById('showRegister');
             
-            // Abrir modal ao clicar em "Entrar"
+            // Elementos do modal de cadastro
+            const registerModal = document.getElementById('registerModal');
+            const closeRegisterModal = document.getElementById('closeRegisterModal');
+            const registerForm = document.getElementById('registerForm');
+            const showLogin = document.getElementById('showLogin');
+            
+            // Abrir modal de login
             loginBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-                modal.style.display = 'flex';
+                loginModal.style.display = 'flex';
             });
             
-            // Fechar modal ao clicar no X
-            closeModal.addEventListener('click', function() {
-                modal.style.display = 'none';
+            // Fechar modal de login
+            closeLoginModal.addEventListener('click', function() {
+                loginModal.style.display = 'none';
             });
             
-            // Fechar modal ao clicar fora do conteúdo
+            // Mostrar modal de cadastro
+            showRegister.addEventListener('click', function(e) {
+                e.preventDefault();
+                loginModal.style.display = 'none';
+                registerModal.style.display = 'flex';
+            });
+            
+            // Fechar modal de cadastro
+            closeRegisterModal.addEventListener('click', function() {
+                registerModal.style.display = 'none';
+            });
+            
+            // Mostrar modal de login a partir do cadastro
+            showLogin.addEventListener('click', function(e) {
+                e.preventDefault();
+                registerModal.style.display = 'none';
+                loginModal.style.display = 'flex';
+            });
+            
+            // Fechar modais ao clicar fora
             window.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+                if (e.target === registerModal) {
+                    registerModal.style.display = 'none';
                 }
             });
             
@@ -405,16 +400,54 @@
                 const email = document.getElementById('email').value;
                 const password = document.getElementById('password').value;
                 
-                // Aqui você pode adicionar a lógica de autenticação
-                console.log('E-mail:', email);
-                console.log('Senha:', password);
+                // Validação básica
+                if (!email || !password) {
+                    alert('Por favor, preencha todos os campos!');
+                    return;
+                }
                 
-                // Simulando login bem-sucedido
+                // Simulação de login bem-sucedido
+                console.log('Login com:', email, password);
                 alert('Login realizado com sucesso!');
-                modal.style.display = 'none';
+                loginModal.style.display = 'none';
                 
-                // Atualizar interface para mostrar que o usuário está logado
+                // Atualizar interface do usuário
                 loginBtn.innerHTML = '<i class="fas fa-user-check"></i> Minha Conta';
+            });
+            
+            // Processar formulário de cadastro
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('reg-name').value;
+                const email = document.getElementById('reg-email').value;
+                const password = document.getElementById('reg-password').value;
+                const confirmPassword = document.getElementById('reg-confirm-password').value;
+                
+                // Validações
+                if (!name || !email || !password || !confirmPassword) {
+                    alert('Por favor, preencha todos os campos!');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    alert('As senhas não coincidem!');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    alert('A senha deve ter pelo menos 6 caracteres!');
+                    return;
+                }
+                
+                // Simulação de cadastro bem-sucedido
+                console.log('Novo cadastro:', { name, email, password });
+                alert('Cadastro realizado com sucesso! Faça login para continuar.');
+                registerModal.style.display = 'none';
+                loginModal.style.display = 'flex';
+                
+                // Limpar formulário
+                registerForm.reset();
             });
         });
     </script>
