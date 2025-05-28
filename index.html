@@ -535,23 +535,88 @@
             color: #666;
             margin-top: 5px;
         }
-
-        /* Sistema de Avaliação - ÚNICA ALTERAÇÃO REALIZADA */
-        .product-rating {
+        
+        .flash-sale {
+            background-color: #fff8e6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .flash-sale-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .flash-sale-timer {
             display: flex;
             align-items: center;
-            margin: 5px 0;
+            background-color: var(--dark);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
         }
         
-        .rating-stars {
-            color: var(--warning);
-            font-size: 0.8rem;
-            margin-right: 5px;
+        .timer-segment {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 3px;
         }
         
-        .rating-count {
-            font-size: 0.7rem;
+        .timer-value {
+            font-weight: bold;
+        }
+        
+        .timer-label {
+            font-size: 0.6rem;
+        }
+        
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .view-all:hover {
+            text-decoration: underline;
+        }
+        
+        .deals-section {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .deals-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .deals-tabs {
+            display: flex;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 15px;
+        }
+        
+        .deals-tab {
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: 500;
             color: #666;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }
+        
+        .deals-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
         }
         
         /* Responsividade */
@@ -1025,16 +1090,6 @@
                     <div class="product-info">
                         <div class="product-title">Fone Bluetooth Sem Fio com Microfone</div>
                         <div class="product-price">R$ 89,90 <span class="product-original-price">R$ 129,90</span> <span class="product-discount">-31%</span></div>
-                        <div class="product-rating">
-                            <div class="rating-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                            <div class="rating-count">(1.2k)</div>
-                        </div>
                         <div class="product-sold">Vendidos: 1.2k</div>
                     </div>
                 </div>
@@ -1043,14 +1098,306 @@
                     <div class="product-info">
                         <div class="product-title">Smartwatch Relógio Inteligente</div>
                         <div class="product-price">R$ 199,90 <span class="product-original-price">R$ 299,90</span> <span class="product-discount">-33%</span></div>
-                        <div class="product-rating">
-                            <div class="rating-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
-                            <div class="rating-count">(856)</div>
-                        </div>
-                        <div class="product-sold">Vendidos: 856
+                        <div class="product-sold">Vendidos: 856</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                    <div class="product-info">
+                        <div class="product-title">Caixa de Som Portátil Bluetooth</div>
+                        <div class="product-price">R$ 149,90 <span class="product-original-price">R$ 199,90</span> <span class="product-discount">-25%</span></div>
+                        <div class="product-sold">Vendidos: 723</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                    <div class="product-info">
+                        <div class="product-title">Carregador Portátil 10000mAh</div>
+                        <div class="product-price">R$ 59,90 <span class="product-original-price">R$ 89,90</span> <span class="product-discount">-33%</span></div>
+                        <div class="product-sold">Vendidos: 1.5k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                    <div class="product-info">
+                        <div class="product-title">Suporte para Celular no Carro</div>
+                        <div class="product-price">R$ 29,90 <span class="product-original-price">R$ 49,90</span> <span class="product-discount">-40%</span></div>
+                        <div class="product-sold">Vendidos: 2.3k</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Ofertas do Dia -->
+        <div class="deals-section">
+            <div class="deals-header">
+                <h2 class="section-title"><i class="fas fa-clock"></i> Ofertas do Dia</h2>
+                <a href="#" class="view-all">Ver tudo <i class="fas fa-chevron-right"></i></a>
+            </div>
+            
+            <div class="deals-tabs">
+                <div class="deals-tab active">Mais Vendidos</div>
+                <div class="deals-tab">Novidades</div>
+                <div class="deals-tab">Melhores Avaliações</div>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                    <div class="product-info">
+                        <div class="product-title">Kit 6 Pares de Meias Esportivas</div>
+                        <div class="product-price">R$ 39,90 <span class="product-original-price">R$ 59,90</span> <span class="product-discount">-33%</span></div>
+                        <div class="product-sold">Vendidos: 3.4k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                    <div class="product-info">
+                        <div class="product-title">Garrafa Térmica 500ml Inox</div>
+                        <div class="product-price">R$ 49,90 <span class="product-original-price">R$ 79,90</span> <span class="product-discount">-38%</span></div>
+                        <div class="product-sold">Vendidos: 1.8k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                    <div class="product-info">
+                        <div class="product-title">Conjunto de Panelas Antiaderente</div>
+                        <div class="product-price">R$ 129,90 <span class="product-original-price">R$ 199,90</span> <span class="product-discount">-35%</span></div>
+                        <div class="product-sold">Vendidos: 987</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                    <div class="product-info">
+                        <div class="product-title">Mochila Antifurto para Notebook</div>
+                        <div class="product-price">R$ 89,90 <span class="product-original-price">R$ 129,90</span> <span class="product-discount">-31%</span></div>
+                        <div class="product-sold">Vendidos: 2.1k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                    <div class="product-info">
+                        <div class="product-title">Luminária de Mesa LED</div>
+                        <div class="product-price">R$ 59,90 <span class="product-original-price">R$ 89,90</span> <span class="product-discount">-33%</span></div>
+                        <div class="product-sold">Vendidos: 1.7k</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Produtos Recomendados -->
+        <div class="deals-section">
+            <div class="deals-header">
+                <h2 class="section-title"><i class="fas fa-star"></i> Recomendados para Você</h2>
+                <a href="#" class="view-all">Ver tudo <i class="fas fa-chevron-right"></i></a>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                    <div class="product-info">
+                        <div class="product-title">Capa para iPhone 14 Pro Max</div>
+                        <div class="product-price">R$ 29,90 <span class="product-original-price">R$ 49,90</span> <span class="product-discount">-40%</span></div>
+                        <div class="product-sold">Vendidos: 4.2k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                    <div class="product-info">
+                        <div class="product-title">Mouse Sem Fio Ergonômico</div>
+                        <div class="product-price">R$ 49,90 <span class="product-original-price">R$ 79,90</span> <span class="product-discount">-38%</span></div>
+                        <div class="product-sold">Vendidos: 1.3k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                    <div class="product-info">
+                        <div class="product-title">Tapete de Yoga Antiderrapante</div>
+                        <div class="product-price">R$ 59,90 <span class="product-original-price">R$ 99,90</span> <span class="product-discount">-40%</span></div>
+                        <div class="product-sold">Vendidos: 876</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                    <div class="product-info">
+                        <div class="product-title">Kit 3 Cabos USB para Carregador</div>
+                        <div class="product-price">R$ 19,90 <span class="product-original-price">R$ 39,90</span> <span class="product-discount">-50%</span></div>
+                        <div class="product-sold">Vendidos: 5.7k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                    <div class="product-info">
+                        <div class="product-title">Óculos de Sol Polarizado</div>
+                        <div class="product-price">R$ 39,90 <span class="product-original-price">R$ 79,90</span> <span class="product-discount">-50%</span></div>
+                        <div class="product-sold">Vendidos: 2.9k</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos do modal de login
+            const loginModal = document.getElementById('loginModal');
+            const loginBtn = document.getElementById('login-btn');
+            const closeLoginModal = document.getElementById('closeLoginModal');
+            const loginForm = document.getElementById('loginForm');
+            const showRegister = document.getElementById('showRegister');
+            const adminBtn = document.getElementById('admin-btn');
+            
+            // Elementos do modal de cadastro
+            const registerModal = document.getElementById('registerModal');
+            const closeRegisterModal = document.getElementById('closeRegisterModal');
+            const registerForm = document.getElementById('registerForm');
+            const showLogin = document.getElementById('showLogin');
+            
+            // Elementos do modal admin
+            const adminModal = document.getElementById('adminModal');
+            const closeAdminModal = document.getElementById('closeAdminModal');
+            
+            // Credenciais do admin
+            const ADMIN_EMAIL = "acdef0612@gmail.com";
+            const ADMIN_PASSWORD = "mamutipa08";
+            
+            // Abrir modal de login
+            loginBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                loginModal.style.display = 'flex';
+            });
+            
+            // Fechar modal de login
+            closeLoginModal.addEventListener('click', function() {
+                loginModal.style.display = 'none';
+            });
+            
+            // Mostrar modal de cadastro
+            showRegister.addEventListener('click', function(e) {
+                e.preventDefault();
+                loginModal.style.display = 'none';
+                registerModal.style.display = 'flex';
+            });
+            
+            // Fechar modal de cadastro
+            closeRegisterModal.addEventListener('click', function() {
+                registerModal.style.display = 'none';
+            });
+            
+            // Mostrar modal de login a partir do cadastro
+            showLogin.addEventListener('click', function(e) {
+                e.preventDefault();
+                registerModal.style.display = 'none';
+                loginModal.style.display = 'flex';
+            });
+            
+            // Abrir modal admin
+            adminBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                adminModal.style.display = 'flex';
+            });
+            
+            // Fechar modal admin
+            closeAdminModal.addEventListener('click', function() {
+                adminModal.style.display = 'none';
+            });
+            
+            // Fechar modais ao clicar fora
+            window.addEventListener('click', function(e) {
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+                if (e.target === registerModal) {
+                    registerModal.style.display = 'none';
+                }
+                if (e.target === adminModal) {
+                    adminModal.style.display = 'none';
+                }
+            });
+            
+            // Navegação no painel admin
+            const adminNavButtons = document.querySelectorAll('.admin-nav button');
+            adminNavButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons and content
+                    adminNavButtons.forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.admin-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-content`).classList.add('active');
+                });
+            });
+            
+            // Processar formulário de login
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                // Validação básica
+                if (!email || !password) {
+                    alert('Por favor, preencha todos os campos!');
+                    return;
+                }
+                
+                // Verificar se é admin
+                if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                    alert('Login administrativo realizado com sucesso!');
+                    loginModal.style.display = 'none';
+                    
+                    // Mostrar botão do painel admin
+                    adminBtn.style.display = 'inline-block';
+                    loginBtn.style.display = 'none';
+                } else {
+                    // Simulação de login normal bem-sucedido
+                    alert('Login realizado com sucesso!');
+                    loginModal.style.display = 'none';
+                    
+                    // Atualizar interface do usuário
+                    loginBtn.innerHTML = '<i class="fas fa-user-check"></i> Minha Conta';
+                }
+            });
+            
+            // Processar formulário de cadastro
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('reg-name').value;
+                const email = document.getElementById('reg-email').value;
+                const password = document.getElementById('reg-password').value;
+                const confirmPassword = document.getElementById('reg-confirm-password').value;
+                
+                // Validações
+                if (!name || !email || !password || !confirmPassword) {
+                    alert('Por favor, preencha todos os campos!');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    alert('As senhas não coincidem!');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    alert('A senha deve ter pelo menos 6 caracteres!');
+                    return;
+                }
+                
+                // Simulação de cadastro bem-sucedido
+                console.log('Novo cadastro:', { name, email, password });
+                alert('Cadastro realizado com sucesso! Faça login para continuar.');
+                registerModal.style.display = 'none';
+                loginModal.style.display = 'flex';
+                
+                // Limpar formulário
+                registerForm.reset();
+            });
+        });
+    </script>
+</body>
+</html>
