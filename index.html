@@ -6,56 +6,1678 @@
     <title>MegaDeals - Ofertas Incríveis Todo Dia</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ... (todo o CSS original permanece igual) ... */
-
-        /* ÚNICA ADIÇÃO: Sistema de Avaliação */
+        :root {
+            --primary: #FF6B00;
+            --secondary: #FF9500;
+            --dark: #1A1A1A;
+            --light: #F5F5F5;
+            --gray: #E0E0E0;
+            --success: #4CAF50;
+            --danger: #F44336;
+            --warning: #FFC107;
+            --info: #2196F3;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        
+        /* Header */
+        .top-bar {
+            background-color: var(--dark);
+            color: white;
+            padding: 8px 0;
+            font-size: 0.8rem;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .flex {
+            display: flex;
+            align-items: center;
+        }
+        
+        .justify-between {
+            justify-content: space-between;
+        }
+        
+        .header {
+            background-color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .search-bar {
+            flex: 1;
+            margin: 0 20px;
+            position: relative;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid var(--gray);
+            border-radius: 30px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .search-bar input:focus {
+            border-color: var(--primary);
+        }
+        
+        .search-bar button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+        }
+        
+        .user-actions a {
+            color: var(--dark);
+            margin-left: 15px;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .user-actions a:hover {
+            color: var(--primary);
+        }
+        
+        .cart-icon {
+            position: relative;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .close-modal:hover {
+            color: var(--dark);
+        }
+        
+        .modal h2 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .form-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .form-btn:hover {
+            background-color: #e05a00;
+        }
+        
+        .form-options {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .form-options a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .form-options a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Painel Admin */
+        .admin-panel {
+            display: none;
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .admin-panel h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .admin-nav {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            overflow-x: auto;
+        }
+        
+        .admin-nav button {
+            padding: 10px 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+        }
+        
+        .admin-nav button.active {
+            border-bottom: 3px solid var(--primary);
+            font-weight: bold;
+        }
+        
+        .admin-content {
+            display: none;
+        }
+        
+        .admin-content.active {
+            display: block;
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .admin-table th, .admin-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .admin-table th {
+            background-color: #f2f2f2;
+            font-weight: 600;
+        }
+        
+        .btn {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-sm {
+            padding: 5px 8px;
+            font-size: 0.8rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #e05a00;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #388e3c;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+        
+        .btn-warning:hover {
+            background-color: #ffb300;
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .status-processing {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .status-pending {
+            background-color: #fff3e0;
+            color: #e65100;
+        }
+        
+        .status-shipped {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .trending-badge {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 20px;
+        }
+        
+        .pagination-btn {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .pagination-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .pagination-btn:hover:not(.active) {
+            background-color: #f5f5f5;
+        }
+        
+        /* Estilos da Página Inicial */
+        .banner {
+            width: 100%;
+            height: 300px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-width: 80px;
+        }
+        
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .category-icon i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .category-name {
+            font-size: 0.8rem;
+            color: #555;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 12px;
+        }
+        
+        .product-title {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 40px;
+        }
+        
+        .product-price {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .product-original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+        
+        .product-discount {
+            color: var(--danger);
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        
+        .product-sold {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* Sistema de Avaliação */
         .product-rating {
             display: flex;
             align-items: center;
             margin: 5px 0;
         }
         
-        .rating-stars {
+        .stars {
             color: var(--warning);
             font-size: 0.8rem;
-            margin-right: 5px;
+            position: relative;
+        }
+        
+        .stars-background {
+            color: #ddd;
+        }
+        
+        .stars-foreground {
+            position: absolute;
+            top: 0;
+            left: 0;
+            white-space: nowrap;
+            overflow: hidden;
         }
         
         .rating-count {
             font-size: 0.7rem;
             color: #666;
+            margin-left: 5px;
+        }
+        
+        .rating-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .rating-modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .rating-stars {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+            font-size: 2rem;
+        }
+        
+        .rating-star {
+            cursor: pointer;
+            color: #ddd;
+            transition: color 0.2s;
+            margin: 0 5px;
+        }
+        
+        .rating-star:hover,
+        .rating-star.active {
+            color: var(--warning);
+        }
+        
+        .flash-sale {
+            background-color: #fff8e6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .flash-sale-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .flash-sale-timer {
+            display: flex;
+            align-items: center;
+            background-color: var(--dark);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .timer-segment {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 3px;
+        }
+        
+        .timer-value {
+            font-weight: bold;
+        }
+        
+        .timer-label {
+            font-size: 0.6rem;
+        }
+        
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .view-all:hover {
+            text-decoration: underline;
+        }
+        
+        .deals-section {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .deals-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .deals-tabs {
+            display: flex;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 15px;
+        }
+        
+        .deals-tab {
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }
+        
+        .deals-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 10px 0;
+            }
+            
+            .logo {
+                margin-bottom: 10px;
+            }
+            
+            .search-bar {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .user-actions {
+                width: 100%;
+                justify-content: space-around;
+                margin-top: 10px;
+            }
+            
+            .modal-content {
+                margin: 0 15px;
+            }
+            
+            .admin-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .categories {
+                grid-template-columns: repeat(6, 1fr);
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
-    <!-- ... (todo o HTML original permanece igual até os produtos) ... -->
-
-    <!-- Flash Sale - Produto 1 (apenas adicionei a div de rating) -->
-    <div class="product-card">
-        <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
-        <div class="product-info">
-            <div class="product-title">Fone Bluetooth Sem Fio com Microfone</div>
-            <div class="product-price">R$ 89,90 <span class="product-original-price">R$ 129,90</span> <span class="product-discount">-31%</span></div>
-            <!-- Apenas esta div foi adicionada -->
-            <div class="product-rating">
-                <div class="rating-stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half-alt"></i>
-                </div>
-                <div class="rating-count">(1.2k)</div>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container flex justify-between">
+            <div>Frete grátis para pedidos acima de R$99</div>
+            <div>
+                <a href="#" style="color: white; text-decoration: none; margin-left: 15px;">Acompanhar Pedido</a>
+                <a href="#" style="color: white; text-decoration: none; margin-left: 15px;">Ajuda</a>
             </div>
-            <!-- Fim da adição -->
-            <div class="product-sold">Vendidos: 1.2k</div>
         </div>
     </div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container flex justify-between">
+            <div class="logo">Mega<span>Deals</span></div>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Busque por produtos, marcas e mais...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            
+            <div class="user-actions flex">
+                <a href="#" id="login-btn"><i class="fas fa-user"></i> Entrar</a>
+                <a href="#" id="admin-btn" style="display: none;"><i class="fas fa-cog"></i> Painel Admin</a>
+                <a href="#"><i class="fas fa-heart"></i> Favoritos</a>
+                <a href="#" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">3</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Modal de Login -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeLoginModal">&times;</span>
+            <h2>Entrar na sua conta</h2>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" placeholder="Digite seu e-mail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" placeholder="Digite sua senha" required>
+                </div>
+                
+                <button type="submit" class="form-btn">Entrar</button>
+            </form>
+            
+            <div class="form-options">
+                <a href="#" id="forgot-password">Esqueceu sua senha?</a>
+            </div>
+            
+            <div class="form-options">
+                Não tem uma conta? <a href="#" id="showRegister">Cadastre-se</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Cadastro -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeRegisterModal">&times;</span>
+            <h2>Criar nova conta</h2>
+            
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="reg-name">Nome completo</label>
+                    <input type="text" id="reg-name" placeholder="Digite seu nome completo" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-email">E-mail</label>
+                    <input type="email" id="reg-email" placeholder="Digite seu e-mail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-password">Senha</label>
+                    <input type="password" id="reg-password" placeholder="Crie uma senha (mínimo 6 caracteres)" required minlength="6">
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-confirm-password">Confirmar senha</label>
+                    <input type="password" id="reg-confirm-password" placeholder="Digite a senha novamente" required>
+                </div>
+                
+                <button type="submit" class="form-btn">Criar conta</button>
+            </form>
+            
+            <div class="form-options">
+                Já tem uma conta? <a href="#" id="showLogin">Entrar</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal do Painel Admin -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content" style="max-width: 1000px; padding: 20px;">
+            <span class="close-modal" id="closeAdminModal">&times;</span>
+            <h2 style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-cog"></i> Painel Administrativo
+                <span style="font-size: 0.8rem; background: var(--primary); color: white; padding: 3px 8px; border-radius: 20px;">Admin</span>
+            </h2>
+            
+            <div class="admin-nav">
+                <button class="active" data-tab="products"><i class="fas fa-box"></i> Produtos</button>
+                <button data-tab="trending"><i class="fas fa-fire"></i> Em Alta</button>
+                <button data-tab="orders"><i class="fas fa-shopping-bag"></i> Pedidos</button>
+                <button data-tab="coupons"><i class="fas fa-tag"></i> Cupons</button>
+            </div>
+            
+            <!-- Conteúdo de Produtos -->
+            <div class="admin-content active" id="products-content">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <h3>Todos os Produtos</h3>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i> Adicionar Produto</button>
+                </div>
+                
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Produto</th>
+                            <th>Preço</th>
+                            <th>Estoque</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1001</td>
+                            <td>Fone Bluetooth</td>
+                            <td>R$ 89,90</td>
+                            <td>45</td>
+                            <td><span class="status-badge status-processing">Ativo</span></td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger btn-sm" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1002</td>
+                            <td>Smartwatch</td>
+                            <td>R$ 199,90</td>
+                            <td>32</td>
+                            <td><span class="status-badge status-processing">Ativo</span></td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger btn-sm" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="pagination">
+                    <button class="pagination-btn"><i class="fas fa-angle-left"></i></button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn"><i class="fas fa-angle-right"></i></button>
+                </div>
+            </div>
+            
+            <!-- Conteúdo de Produtos em Alta -->
+            <div class="admin-content" id="trending-content">
+                <div style="margin-bottom: 20px;">
+                    <h3>Produtos em Alta</h3>
+                    <p style="color: #666; font-size: 0.9rem;">Produtos mais vendidos na última semana</p>
+                </div>
+                
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Posição</th>
+                            <th>Produto</th>
+                            <th>Vendas</th>
+                            <th>Receita</th>
+                            <th>Crescimento</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <div>Fone Bluetooth</div>
+                                <div style="font-size: 0.8rem; color: #666;">ID: 1001</div>
+                                <span class="trending-badge">TOP 1</span>
+                            </td>
+                            <td>48 vendas</td>
+                            <td>R$ 4.315,20</td>
+                            <td style="color: var(--success); font-weight: bold;">+25%</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" title="Ver detalhes"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-warning btn-sm" title="Promover"><i class="fas fa-bullhorn"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <div>Smartwatch</div>
+                                <div style="font-size: 0.8rem; color: #666;">ID: 1002</div>
+                            </td>
+                            <td>32 vendas</td>
+                            <td>R$ 6.396,80</td>
+                            <td style="color: var(--success); font-weight: bold;">+15%</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" title="Ver detalhes"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-warning btn-sm" title="Promover"><i class="fas fa-bullhorn"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>
+                                <div>Caixa de Som Portátil</div>
+                                <div style="font-size: 0.8rem; color: #666;">ID: 1003</div>
+                            </td>
+                            <td>25 vendas</td>
+                            <td>R$ 3.747,50</td>
+                            <td style="color: var(--danger); font-weight: bold;">-5%</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" title="Ver detalhes"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-warning btn-sm" title="Promover"><i class="fas fa-bullhorn"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="margin-top: 20px; background-color: #f5f5f5; padding: 15px; border-radius: 8px;">
+                    <h4 style="margin-bottom: 10px;">Estatísticas Rápidas</h4>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                        <div style="background: white; padding: 10px; border-radius: 6px;">
+                            <div style="font-size: 0.9rem; color: #666;">Total Vendas</div>
+                            <div style="font-size: 1.2rem; font-weight: bold;">105</div>
+                        </div>
+                        <div style="background: white; padding: 10px; border-radius: 6px;">
+                            <div style="        <!-- Conteúdo de Pedidos -->
+        <div class="admin-content" id="orders-content">
+            <div style="margin-bottom: 20px;">
+                <h3>Últimos Pedidos</h3>
+            </div>
+            
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Nº Pedido</th>
+                        <th>Cliente</th>
+                        <th>Valor</th>
+                        <th>Status</th>
+                        <th>Data</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#20230515-001</td>
+                        <td>João Silva</td>
+                        <td>R$ 205,70</td>
+                        <td><span class="status-badge status-processing">Processando</span></td>
+                        <td>15/05/2023</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" title="Ver detalhes"><i class="fas fa-eye"></i></button>
+                            <button class="btn btn-danger btn-sm" title="Cancelar"><i class="fas fa-times"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="pagination">
+                <button class="pagination-btn"><i class="fas fa-angle-left"></i></button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn"><i class="fas fa-angle-right"></i></button>
+            </div>
+        </div>
+        
+        <!-- Conteúdo de Cupons -->
+        <div class="admin-content" id="coupons-content">
+            <div style="margin-bottom: 20px;">
+                <h3>Cupons de Desconto</h3>
+            </div>
+            
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Desconto</th>
+                        <th>Validade</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>MEGA20</td>
+                        <td>20%</td>
+                        <td>31/12/2023</td>
+                        <td><span class="status-badge status-processing">Ativo</span></td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" title="Editar"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-danger btn-sm" title="Excluir"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="pagination">
+                <button class="pagination-btn"><i class="fas fa-angle-left"></i></button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn"><i class="fas fa-angle-right"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <!-- ... (todos os outros produtos com a mesma adição) ... -->
+<!-- Modal de Avaliação -->
+<div class="rating-modal" id="ratingModal">
+    <div class="rating-modal-content">
+        <span class="close-modal" id="closeRatingModal">&times;</span>
+        <h2>Avaliar Produto</h2>
+        <p id="productToRate">Fone Bluetooth Sem Fio com Microfone</p>
+        
+        <div class="rating-stars">
+            <i class="fas fa-star rating-star" data-value="1"></i>
+            <i class="fas fa-star rating-star" data-value="2"></i>
+            <i class="fas fa-star rating-star" data-value="3"></i>
+            <i class="fas fa-star rating-star" data-value="4"></i>
+            <i class="fas fa-star rating-star" data-value="5"></i>
+        </div>
+        
+        <div class="form-group">
+            <label for="rating-comment">Comentário (opcional)</label>
+            <textarea id="rating-comment" rows="3" placeholder="Conte sua experiência com o produto..." style="width: 100%; padding: 10px; border: 1px solid var(--gray); border-radius: 4px;"></textarea>
+        </div>
+        
+        <button id="submit-rating" class="form-btn">Enviar Avaliação</button>
+    </div>
+</div>
 
-    <script>
-        /* ... (todo o JavaScript original permanece igual) ... */
+<!-- Conteúdo Principal -->
+<main class="container">
+    <!-- Banner Principal -->
+    <div class="banner">
+        <img src="https://via.placeholder.com/1200x300" alt="Ofertas Especiais">
+    </div>
+    
+    <!-- Categorias -->
+    <div class="categories">
+        <div class="category-item">
+            <div class="category-icon">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div class="category-name">Celulares</div>
+        </div>
+        <div class="category-item">
+            <div class="category-icon">
+                <i class="fas fa-laptop"></i>
+            </div>
+            <div class="category-name">Eletrônicos</div>
+        </div>
+        <div class="category-item">
+            <div class="category-icon">
+                <i class="fas fa-tshirt"></i>
+            </div>
+            <div class="category-name">Moda</div>
+        </div>
+        <div class="category-item">
+            <div class="category-icon">
+                <i class="fas fa-home"></i>
+            </div>
+            <div class="category-name">Casa</div>
+        </div>
+        <div class="category-item">
+            <div class="category-icon">
+                <i class="fas fa-gamepad"></i>
+            </div>
+            <div class="category-name">Games</div>
+        </div>
+        <div class="category-item">
+            <div class="category-icon">
+                <i class="fas fa-headphones"></i>
+            </div>
+            <div class="category-name">Áudio</div>
+        </div>
+        <div class="category-item">
+            <div class="category-icon">
+                <i class="fas fa-baby"></i>
+            </div>
+            <div class="category-name">Bebês</div>
+        </div>
+        <div class="category-item">
+            <div class="category-icon">
+                <i class="fas fa-utensils"></i>
+            </div>
+            <div class="category-name">Alimentos</div>
+        </div>
+        <div class="category-item">
+            <div class="category-icon">
+                <i class="fas fa-dumbbell"></i>
+            </div>
+            <div class="category-name">Esportes</div>
+        </div>
+        <div class="category-item">
+            <div class="category-icon">
+                <i class="fas fa-car"></i>
+            </div>
+            <div class="category-name">Automotivo</div>
+        </div>
+    </div>
+    
+    <!-- Flash Sale -->
+    <div class="flash-sale">
+        <div class="flash-sale-header">
+            <h2 class="section-title"><i class="fas fa-bolt"></i> Flash Sale</h2>
+            <div class="flash-sale-timer">
+                <div class="timer-segment">
+                    <div class="timer-value">12</div>
+                    <div class="timer-label">HORAS</div>
+                </div>
+                <div>:</div>
+                <div class="timer-segment">
+                    <div class="timer-value">45</div>
+                    <div class="timer-label">MIN</div>
+                </div>
+                <div>:</div>
+                <div class="timer-segment">
+                    <div class="timer-value">30</div>
+                    <div class="timer-label">SEG</div>
+                </div>
+            </div>
+            <a href="#" class="view-all">Ver tudo <i class="fas fa-chevron-right"></i></a>
+        </div>
+        
+        <div class="products-grid">
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Fone Bluetooth Sem Fio com Microfone</div>
+                    <div class="product-price">R$ 89,90 <span class="product-original-price">R$ 129,90</span> <span class="product-discount">-31%</span></div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <div class="stars-background">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <div class="stars-foreground" style="width: 90%">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <span class="rating-count">(1.2k)</span>
+                    </div>
+                    <div class="product-sold">Vendidos: 1.2k</div>
+                    <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 8px;" onclick="openRatingModal('Fone Bluetooth Sem Fio com Microfone')">Avaliar</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Smartwatch Relógio Inteligente</div>
+                    <div class="product-price">R$ 199,90 <span class="product-original-price">R$ 299,90</span> <span class="product-discount">-33%</span></div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <div class="stars-background">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <div class="stars-foreground" style="width: 80%">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <span class="rating-count">(856)</span>
+                    </div>
+                    <div class="product-sold">Vendidos: 856</div>
+                    <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 8px;" onclick="openRatingModal('Smartwatch Relógio Inteligente')">Avaliar</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Caixa de Som Portátil Bluetooth</div>
+                    <div class="product-price">R$ 149,90 <span class="product-original-price">R$ 199,90</span> <span class="product-discount">-25%</span></div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <div class="stars-background">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <div class="stars-foreground" style="width: 70%">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <span class="rating-count">(723)</span>
+                    </div>
+                    <div class="product-sold">Vendidos: 723</div>
+                    <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 8px;" onclick="openRatingModal('Caixa de Som Portátil Bluetooth')">Avaliar</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Carregador Portátil 10000mAh</div>
+                    <div class="product-price">R$ 59,90 <span class="product-original-price">R$ 89,90</span> <span class="product-discount">-33%</span></div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <div class="stars-background">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <div class="stars-foreground" style="width: 85%">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <span class="rating-count">(1.5k)</span>
+                    </div>
+                    <div class="product-sold">Vendidos: 1.5k</div>
+                    <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 8px;" onclick="openRatingModal('Carregador Portátil 10000mAh')">Avaliar</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Suporte para Celular no Carro</div>
+                    <div class="product-price">R$ 29,90 <span class="product-original-price">R$ 49,90</span> <span class="product-discount">-40%</span></div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <div class="stars-background">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <div class="stars-foreground" style="width: 75%">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <span class="rating-count">(2.3k)</span>
+                    </div>
+                    <div class="product-sold">Vendidos: 2.3k</div>
+                    <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 8px;" onclick="openRatingModal('Suporte para Celular no Carro')">Avaliar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Ofertas do Dia -->
+    <div class="deals-section">
+        <div class="deals-header">
+            <h2 class="section-title"><i class="fas fa-clock"></i> Ofertas do Dia</h2>
+            <a href="#" class="view-all">Ver tudo <i class="fas fa-chevron-right"></i></a>
+        </div>
+        
+        <div class="deals-tabs">
+            <div class="deals-tab active">Mais Vendidos</div>
+            <div class="deals-tab">Novidades</div>
+            <div class="deals-tab">Melhores Avaliações</div>
+        </div>
+        
+        <div class="products-grid">
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Kit 6 Pares de Meias Esportivas</div>
+                    <div class="product-price">R$ 39,90 <span class="product-original-price">R$ 59,90</span> <span class="product-discount">-33%</span></div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <div class="stars-background">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <div class="stars-foreground" style="width: 95%">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <span class="rating-count">(3.4k)</span>
+                    </div>
+                    <div class="product-sold">Vendidos: 3.4k</div>
+                    <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 8px;" onclick="openRatingModal('Kit 6 Pares de Meias Esportivas')">Avaliar</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Garrafa Térmica 500ml Inox</div>
+                    <div class="product-price">R$ 49,90 <span class="product-original-price">R$ 79,90</span> <span class="product-discount">-38%</span></div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <div class="stars-background">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <div class="stars-foreground" style="width: 88%">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <span class="rating-count">(1.8k)</span>
+                    </div>
+                    <div class="product-sold">Vendidos: 1.8k</div>
+                    <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 8px;" onclick="openRatingModal('Garrafa Térmica 500ml Inox')">Avaliar</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Conjunto de Panelas Antiaderente</div>
+                    <div class="product-price">R$ 129,90 <span class="product-original-price">R$ 199,90</span> <span class="product-discount">-35%</span></div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <div class="stars-background">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <div class="stars-foreground" style="width: 82%">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <span class="rating-count">(987)</span>
+                    </div>
+                    <div class="product-sold">Vendidos: 987</div>
+                    <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 8px;" onclick="openRatingModal('Conjunto de Panelas Antiaderente')">Avaliar</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Mochila Antifurto para Notebook</div>
+                    <div class="product-price">R$ 89,90 <span class="product-original-price">R$ 129,90</span> <span class="product-discount">-31%</span></div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <div class="stars-background">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <div class="stars-foreground" style="width: 78%">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <span class="rating-count">(2.1k)</span>
+                    </div>
+                    <div class="product-sold">Vendidos: 2.1k</div>
+                    <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 8px;" onclick="openRatingModal('Mochila Antifurto para Notebook')">Avaliar</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Luminária de Mesa LED</div>
+                    <div class="product-price">R$ 59,90 <span class="product-original-price">R$ 89,90</span> <span class="product-discount">-33%</span></div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <div class="stars-background">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <div class="stars-foreground" style="width: 85%">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <span class="rating-count">(1.7k)</span>
+                    </div>
+                    <div class="product-sold">Vendidos: 1.7k</div>
+                    <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 8px;" onclick="openRatingModal('Luminária de Mesa LED')">Avaliar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Produtos Recomendados -->
+    <div class="deals-section">
+        <div class="deals-header">
+            <h2 class="section-title"><i class="fas fa-star"></i> Recomendados para Você</h2>
+            <a href="#" class="view-all">Ver tudo <i class="fas fa-chevron-right"></i></a>
+        </div>
+        
+        <div class="products-grid">
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Capa para iPhone 14 Pro Max</div>
+                    <div class="product-price">R$ 29,90 <span class="product-original-price">R$ 49,90</span> <span class="product-discount">-40%</span></div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <div class="stars-background">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <div class="stars-foreground" style="width: 92%">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <span class="rating-count">(4.2k)</span>
+                    </div>
+                    <div class="product-sold">Vendidos: 4.2k</div>
+                    <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 8px;" onclick="openRatingModal('Capa para iPhone 14 Pro Max')">Avaliar</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Mouse Sem Fio Ergonômico</div>
+                    <div class="product-price">R$ 49,90 <span class="product-original-price">R$ 79,90</span> <span class="product-discount">-38%</span></div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <div class="stars-background">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <div class="stars-foreground" style="width: 75%">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <span class="rating-count">(1.3k)</span>
+                    </div>
+                    <div class="product-sold">Vendidos: 1.3k</div>
+                    <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 8px;" onclick="openRatingModal('Mouse Sem Fio Ergonômico')">Avaliar</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Tapete de Yoga Antiderrapante</div>
+                    <div class="product-price">R$ 59,90 <span class="product-original-price">R$ 99,90</span> <span class="product-discount">-40%</span></div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <div class="stars-background">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <div class="stars-foreground" style="width: 80%">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <span class="rating-count">(876)</span>
+                    </div>
+                    <div class="product-sold">Vendidos: 876</div>
+                    <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 8px;" onclick="openRatingModal('Tapete de Yoga Antiderrapante')">Avaliar</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Kit 3 Cabos USB para Carregador</div>
+                    <div class="product-price">R$ 19,90 <span class="product-original-price">R$ 39,90</span> <span class="product-discount">-50%</span></div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <div class="stars-background">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <div class="stars-foreground" style="width: 85%">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <span class="rating-count">(5.7k)</span>
+                    </div>
+                    <div class="product-sold">Vendidos: 5.7k</div>
+                    <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 8px;" onclick="openRatingModal('Kit 3 Cabos USB para Carregador')">Avaliar</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200" alt="Produto" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Óculos de Sol Polarizado</div>
+                    <div class="product-price">R$ 39,90 <span class="product-original-price">R$ 79,90</span> <span class="product-discount">-50%</span></div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <div class="stars-background">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <div class="stars-foreground" style="width: 88%">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <span class="rating-count">(2.9k)</span>
+                    </div>
+                    <div class="product-sold">Vendidos: 2.9k</div>
+                    <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 8px;" onclick="openRatingModal('Óculos de Sol Polarizado')">Avaliar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elementos do modal de login
+        const loginModal = document.getElementById('loginModal');
+        const loginBtn = document.getElementById('login-btn');
+        const closeLoginModal = document.getElementById('closeLoginModal');
+        const loginForm = document.getElementById('loginForm');
+        const showRegister = document.getElementById('showRegister');
+        const adminBtn = document.getElementById('admin-btn');
+        
+        // Elementos do modal de cadastro
+        const registerModal = document.getElementById('registerModal');
+        const closeRegisterModal = document.getElementById('closeRegisterModal');
+        const registerForm = document.getElementById('registerForm');
+        const showLogin = document.getElementById('showLogin');
+        
+        // Elementos do modal admin
+        const adminModal = document.getElementById('adminModal');
+        const closeAdminModal = document.getElementById('closeAdminModal');
+        
+        // Elementos do modal de avaliação
+        const ratingModal = document.getElementById('ratingModal');
+        const closeRatingModal = document.getElementById('closeRatingModal');
+        const submitRating = document.getElementById('submit-rating');
+        const ratingStars = document.querySelectorAll('.rating-star');
+        
+        // Credenciais do admin
+        const ADMIN_EMAIL = "acdef0612@gmail.com";
+        const ADMIN_PASSWORD = "mamutipa08";
+        
+        // Variáveis para avaliação
+        let currentRating = 0;
+        let currentProduct = '';
+        
+        // Abrir modal de login
+        loginBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginModal.style.display = 'flex';
+        });
+        
+        // Fechar modal de login
+        closeLoginModal.addEventListener('click', function() {
+            loginModal.style.display = 'none';
+        });
+        
+        // Mostrar modal de cadastro
+        showRegister.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginModal.style.display = 'none';
+            registerModal.style.display = 'flex';
+        });
+        
+        // Fechar modal de cadastro
+        closeRegisterModal.addEventListener('click', function() {
+            registerModal.style.display = 'none';
+        });
+        
+        // Mostrar modal de login a partir do cadastro
+        showLogin.addEventListener('click', function(e) {
+            e.preventDefault();
+            registerModal.style.display = 'none';
+            loginModal.style.display = 'flex';
+        });
+        
+        // Abrir modal admin
+        adminBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            adminModal.style.display = 'flex';
+        });
+        
+        // Fechar modal admin
+        closeAdminModal.addEventListener('click', function() {
+            adminModal.style.display = 'none';
+        });
+        
+        // Fechar modal de avaliação
+        closeRatingModal.addEventListener('click', function() {
+            ratingModal.style.display = 'none';
+            resetRatingStars();
+        });
+        
+        // Fechar modais ao clicar fora
+        window.addEventListener('click', function(e) {
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
+                }
+                if (e.target === registerModal) {
+                    registerModal.style.display = 'none';
+                }
+                if (e.target === adminModal) {
+                    adminModal.style.display = 'none';
+                }
+            });
+            
+            // Navegação no painel admin
+            const adminNavButtons = document.querySelectorAll('.admin-nav button');
+            adminNavButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons and content
+                    adminNavButtons.forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.admin-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-content`).classList.add('active');
+                });
+            });
+            
+            // Processar formulário de login
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                // Validação básica
+                if (!email || !password) {
+                    alert('Por favor, preencha todos os campos!');
+                    return;
+                }
+                
+                // Verificar se é admin
+                if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                    alert('Login administrativo realizado com sucesso!');
+                    loginModal.style.display = 'none';
+                    
+                    // Mostrar botão do painel admin
+                    adminBtn.style.display = 'inline-block';
+                    loginBtn.style.display = 'none';
+                } else {
+                    // Simulação de login normal bem-sucedido
+                    alert('Login realizado com sucesso!');
+                    loginModal.style.display = 'none';
+                    
+                    // Atualizar interface do usuário
+                    loginBtn.innerHTML = '<i class="fas fa-user-check"></i> Minha Conta';
+                }
+            });
+            
+            // Processar formulário de cadastro
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('reg-name').value;
+                const email = document.getElementById('reg-email').value;
+                const password = document.getElementById('reg-password').value;
+                const confirmPassword = document.getElementById('reg-confirm-password').value;
+                
+                // Validações
+                if (!name || !email || !password || !confirmPassword) {
+                    alert('Por favor, preencha todos os campos!');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    alert('As senhas não coincidem!');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    alert('A senha deve ter pelo menos 6 caracteres!');
+                    return;
+                }
+                
+                // Simulação de cadastro bem-sucedido
+                console.log('Novo cadastro:', { name, email, password });
+                alert('Cadastro realizado com sucesso! Faça login para continuar.');
+                registerModal.style.display = 'none';
+                loginModal.style.display = 'flex';
+                
+                // Limpar formulário
+                registerForm.reset();
+            });
+        });
     </script>
 </body>
 </html>
