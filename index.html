@@ -22,6 +22,9 @@
             padding: 15px 5%;
             background-color: #ff5722;
             color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .logo img {
@@ -97,6 +100,8 @@
             border-radius: 8px;
             padding: 15px;
             transition: transform 0.3s;
+            cursor: pointer;
+            position: relative;
         }
 
         .product-card:hover {
@@ -144,22 +149,6 @@
             cursor: pointer;
         }
 
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .top-header {
-                flex-direction: column;
-            }
-            
-            .search-bar {
-                width: 100%;
-                margin: 10px 0;
-            }
-        
-            .product-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
         /* Estilos para produtos */
         .product-image {
             width: 100%;
@@ -202,6 +191,7 @@
             right: 10px;
             color: #ccc;
             cursor: pointer;
+            z-index: 2;
         }
 
         .wishlist-icon.active {
@@ -231,6 +221,153 @@
             margin-left: auto;
             color: #ff5722;
             text-decoration: none;
+        }
+
+        /* Página de produto detalhada */
+        .product-detail-page {
+            display: none;
+            padding: 20px 5%;
+        }
+
+        .product-detail-container {
+            display: flex;
+            gap: 30px;
+        }
+
+        .product-gallery {
+            flex: 1;
+        }
+
+        .main-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .thumbnail {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-title {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .product-brand {
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .product-rating-large {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .rating-stars {
+            color: #ffc107;
+            margin-right: 10px;
+        }
+
+        .rating-count {
+            color: #0066c0;
+            cursor: pointer;
+        }
+
+        .price-container {
+            margin-bottom: 20px;
+        }
+
+        .current-price {
+            font-size: 1.8em;
+            color: #b12704;
+        }
+
+        .installments {
+            color: #565959;
+            margin-top: 5px;
+        }
+
+        .product-actions {
+            margin-bottom: 20px;
+        }
+
+        .quantity-selector {
+            margin-bottom: 15px;
+        }
+
+        .quantity-selector select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .add-to-cart-btn {
+            background: #ffd814;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 10px;
+            width: 200px;
+        }
+
+        .buy-now-btn {
+            background: #ffa41c;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 200px;
+        }
+
+        .product-description {
+            margin-top: 30px;
+            line-height: 1.6;
+        }
+
+        .back-to-products {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #0066c0;
+            cursor: pointer;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .top-header {
+                flex-direction: column;
+            }
+            
+            .search-bar {
+                width: 100%;
+                margin: 10px 0;
+            }
+        
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .product-detail-container {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -265,8 +402,8 @@
         </ul>
     </nav>
 
-    <!-- Conteúdo Principal -->
-    <main>
+    <!-- Página Principal -->
+    <div id="main-page">
         <!-- Banner de Ofertas -->
         <section class="promo-banner">
             <div class="banner-slider">
@@ -293,7 +430,18 @@
                 <!-- Produtos em promoção serão adicionados via JavaScript -->
             </div>
         </section>
-    </main>
+    </div>
+
+    <!-- Página de Detalhes do Produto -->
+    <div id="product-detail-page" class="product-detail-page">
+        <div class="back-to-products" onclick="showMainPage()">
+            <i class="fas fa-arrow-left"></i> Voltar para os produtos
+        </div>
+        
+        <div class="product-detail-container" id="product-detail-container">
+            <!-- Conteúdo será preenchido via JavaScript -->
+        </div>
+    </div>
 
     <!-- Rodapé -->
     <footer>
@@ -335,58 +483,145 @@
             {
                 id: 1,
                 name: "Smartphone XYZ 128GB",
+                brand: "TechBrand",
                 price: 1299.99,
                 oldPrice: 1499.99,
-                image: "https://via.placeholder.com/200?text=Smartphone",
+                image: "https://via.placeholder.com/500x500?text=Smartphone+XYZ",
+                images: [
+                    "https://via.placeholder.com/500x500?text=Smartphone+XYZ+1",
+                    "https://via.placeholder.com/500x500?text=Smartphone+XYZ+2",
+                    "https://via.placeholder.com/500x500?text=Smartphone+XYZ+3"
+                ],
                 rating: 4.5,
+                reviewCount: 342,
                 flashSale: true,
-                discount: 13
+                discount: 13,
+                description: "O Smartphone XYZ 128GB é o mais recente lançamento da TechBrand, com tela AMOLED de 6.5 polegadas, processador octa-core e câmera tripla de 48MP. Armazenamento de 128GB e memória RAM de 6GB garantem desempenho excepcional para todos os seus aplicativos e jogos.",
+                features: [
+                    "Tela AMOLED de 6.5 polegadas",
+                    "Processador Octa-core 2.0GHz",
+                    "Câmera tripla 48MP + 12MP + 5MP",
+                    "Bateria de 4000mAh",
+                    "Android 12 com 3 anos de atualização"
+                ],
+                stock: 15,
+                deliveryDate: "Entrega em 2-3 dias úteis"
             },
             {
                 id: 2,
                 name: "Notebook Ultra Slim",
+                brand: "SuperNotebook",
                 price: 3299.99,
                 oldPrice: 3599.99,
-                image: "https://via.placeholder.com/200?text=Notebook",
+                image: "https://via.placeholder.com/500x500?text=Notebook+Ultra+Slim",
+                images: [
+                    "https://via.placeholder.com/500x500?text=Notebook+1",
+                    "https://via.placeholder.com/500x500?text=Notebook+2",
+                    "https://via.placeholder.com/500x500?text=Notebook+3"
+                ],
                 rating: 4.8,
+                reviewCount: 127,
                 flashSale: true,
-                discount: 8
+                discount: 8,
+                description: "O Notebook Ultra Slim é perfeito para quem precisa de desempenho e portabilidade. Com apenas 1.2kg e 13mm de espessura, possui processador i7 de 11ª geração, 16GB de RAM e SSD de 512GB. Tela Full HD de 14 polegadas com 100% sRGB.",
+                features: [
+                    "Processador Intel i7-1165G7",
+                    "16GB RAM DDR4",
+                    "SSD 512GB NVMe",
+                    "Tela 14\" Full HD IPS",
+                    "Bateria de 12 horas",
+                    "Windows 11 Pro"
+                ],
+                stock: 8,
+                deliveryDate: "Entrega em 1-2 dias úteis"
             },
             {
                 id: 3,
                 name: "Fone de Ouvido Bluetooth",
+                brand: "SoundMaster",
                 price: 199.99,
                 oldPrice: 249.99,
-                image: "https://via.placeholder.com/200?text=Fone",
+                image: "https://via.placeholder.com/500x500?text=Fone+Bluetooth",
+                images: [
+                    "https://via.placeholder.com/500x500?text=Fone+1",
+                    "https://via.placeholder.com/500x500?text=Fone+2",
+                    "https://via.placeholder.com/500x500?text=Fone+3"
+                ],
                 rating: 4.2,
+                reviewCount: 89,
                 flashSale: false,
-                discount: 20
+                discount: 20,
+                description: "Fone de ouvido Bluetooth com cancelamento de ruído ativo, bateria para 30 horas de uso e qualidade de som excepcional. Design ergonômico e confortável para uso prolongado. Compatível com assistentes de voz como Siri e Google Assistant.",
+                features: [
+                    "Cancelamento de ruído ativo",
+                    "Bateria de 30 horas",
+                    "Bluetooth 5.0",
+                    "Microfone integrado",
+                    "Toque sensível para controle"
+                ],
+                stock: 25,
+                deliveryDate: "Entrega em 3-5 dias úteis"
             },
             {
                 id: 4,
                 name: "Smart TV 50 Polegadas",
+                brand: "VisionPlus",
                 price: 2199.99,
                 oldPrice: 2599.99,
-                image: "https://via.placeholder.com/200?text=TV",
+                image: "https://via.placeholder.com/500x500?text=Smart+TV+50",
+                images: [
+                    "https://via.placeholder.com/500x500?text=TV+1",
+                    "https://via.placeholder.com/500x500?text=TV+2",
+                    "https://via.placeholder.com/500x500?text=TV+3"
+                ],
                 rating: 4.7,
+                reviewCount: 231,
                 flashSale: true,
-                discount: 15
+                discount: 15,
+                description: "Smart TV 4K UHD de 50 polegadas com HDR10+ e sistema operacional TVOS. Processador quad-core para navegação fluida e aplicativos como Netflix, YouTube e Amazon Prime Video pré-instalados. 3 portas HDMI e 2 USB.",
+                features: [
+                    "Tela 50\" 4K UHD",
+                    "HDR10+ e Dolby Vision",
+                    "Sistema TVOS com apps",
+                    "Controle por voz",
+                    "3 HDMI e 2 USB"
+                ],
+                stock: 12,
+                deliveryDate: "Entrega em 5-7 dias úteis"
             },
             {
                 id: 5,
                 name: "Câmera Digital Profissional",
+                brand: "PhotoPro",
                 price: 1899.99,
                 oldPrice: 1999.99,
-                image: "https://via.placeholder.com/200?text=Câmera",
+                image: "https://via.placeholder.com/500x500?text=Câmera+Profissional",
+                images: [
+                    "https://via.placeholder.com/500x500?text=Câmera+1",
+                    "https://via.placeholder.com/500x500?text=Câmera+2",
+                    "https://via.placeholder.com/500x500?text=Câmera+3"
+                ],
                 rating: 4.9,
+                reviewCount: 56,
                 flashSale: false,
-                discount: 5
+                discount: 5,
+                description: "Câmera digital profissional com sensor APS-C de 24.2MP, gravação 4K e tela articulável. Inclui lente 18-55mm f/3.5-5.6. Ideal para fotógrafos amadores e profissionais que buscam qualidade e versatilidade.",
+                features: [
+                    "Sensor APS-C 24.2MP",
+                    "Gravação 4K 30fps",
+                    "Tela touch articulável",
+                    "Wi-Fi e Bluetooth",
+                    "Lente 18-55mm inclusa"
+                ],
+                stock: 6,
+                deliveryDate: "Entrega em 7-10 dias úteis"
             }
         ];
 
         // Carrinho de compras
         let cart = [];
         let wishlist = [];
+        let currentProductId = null;
 
         // Quando o documento estiver pronto
         document.addEventListener('DOMContentLoaded', function() {
@@ -475,6 +710,9 @@
             const featuredContainer = document.getElementById('featured-products');
             const flashSalesContainer = document.getElementById('flash-sales-products');
             
+            featuredContainer.innerHTML = '';
+            flashSalesContainer.innerHTML = '';
+            
             sampleProducts.forEach(product => {
                 const productElement = createProductElement(product);
                 
@@ -490,9 +728,10 @@
         function createProductElement(product) {
             const element = document.createElement('div');
             element.className = 'product-card';
+            element.setAttribute('data-id', product.id);
             element.innerHTML = `
                 <i class="fas fa-heart wishlist-icon ${wishlist.some(item => item.id === product.id) ? 'active' : ''}" 
-                   onclick="toggleWishlist(${product.id})"></i>
+                   onclick="event.stopPropagation(); toggleWishlist(${product.id})"></i>
                 <img src="${product.image}" alt="${product.name}" class="product-image">
                 <h3>${product.name}</h3>
                 <div class="product-rating">
@@ -505,21 +744,129 @@
                     `<span class="old-price">De: R$ ${product.oldPrice.toFixed(2)}</span><br>` : ''}
                 <span class="product-price">Por: R$ ${product.price.toFixed(2)}</span>
                 ${product.discount ? `<span style="color:green;">${product.discount}% OFF</span>` : ''}
-                <button class="add-to-cart" onclick="addToCart(${product.id})">Adicionar ao Carrinho</button>
+                <button class="add-to-cart" onclick="event.stopPropagation(); addToCart(${product.id})">Adicionar ao Carrinho</button>
             `;
+            
+            // Adiciona evento de clique para abrir página de detalhes
+            element.addEventListener('click', function() {
+                showProductDetail(product.id);
+            });
+            
             return element;
         }
 
-        // Função para adicionar ao carrinho
-        function addToCart(productId) {
+        // Função para mostrar página de detalhes do produto
+        function showProductDetail(productId) {
             const product = sampleProducts.find(p => p.id === productId);
-            if (product && !cart.some(item => item.id === productId)) {
-                cart.push({...product});
-                updateCartCount();
-                alert(`${product.name} foi adicionado ao carrinho!`);
-            } else if (cart.some(item => item.id === productId)) {
-                alert('Este produto já está no seu carrinho!');
+            if (!product) return;
+            
+            currentProductId = productId;
+            
+            // Preenche os detalhes do produto
+            const container = document.getElementById('product-detail-container');
+            container.innerHTML = `
+                <div class="product-gallery">
+                    <img src="${product.image}" alt="${product.name}" class="main-image" id="main-product-image">
+                    <div class="thumbnail-container">
+                        ${product.images.map((img, index) => `
+                            <img src="${img}" alt="Thumbnail ${index + 1}" class="thumbnail" 
+                                 onclick="document.getElementById('main-product-image').src = '${img}'">
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h1 class="product-title">${product.name}</h1>
+                    <div class="product-brand">Marca: ${product.brand}</div>
+                    
+                    <div class="product-rating-large">
+                        <div class="rating-stars">
+                            ${'<i class="fas fa-star"></i>'.repeat(Math.floor(product.rating))}
+                            ${product.rating % 1 >= 0.5 ? '<i class="fas fa-star-half-alt"></i>' : ''}
+                            ${'<i class="far fa-star"></i>'.repeat(5 - Math.ceil(product.rating))}
+                        </div>
+                        <span class="rating-count">${product.reviewCount} avaliações</span>
+                    </div>
+                    
+                    <div class="price-container">
+                        ${product.oldPrice ? 
+                            `<span class="old-price">De: R$ ${product.oldPrice.toFixed(2)}</span><br>` : ''}
+                        <span class="current-price">R$ ${product.price.toFixed(2)}</span>
+                        ${product.discount ? `<span style="color:green; margin-left:10px;">${product.discount}% OFF</span>` : ''}
+                        <div class="installments">Em até 10x de R$ ${(product.price / 10).toFixed(2)} sem juros</div>
+                    </div>
+                    
+                    <div class="delivery-info">
+                        <p><i class="fas fa-truck"></i> ${product.deliveryDate}</p>
+                        <p><i class="fas fa-box"></i> Estoque: ${product.stock} unidades</p>
+                    </div>
+                    
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <label for="quantity">Quantidade:</label>
+                            <select id="quantity">
+                                ${Array.from({length: Math.min(10, product.stock)}, (_, i) => 
+                                    `<option value="${i + 1}">${i + 1}</option>`).join('')}
+                            </select>
+                        </div>
+                        
+                        <button class="add-to-cart-btn" onclick="addToCart(${product.id}, parseInt(document.getElementById('quantity').value))">
+                            Adicionar ao Carrinho
+                        </button>
+                        <button class="buy-now-btn" onclick="buyNow(${product.id}, parseInt(document.getElementById('quantity').value))">
+                            Comprar Agora
+                        </button>
+                    </div>
+                    
+                    <div class="product-features">
+                        <h3>Características principais:</h3>
+                        <ul>
+                            ${product.features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="product-description">
+                        <h3>Descrição do produto</h3>
+                        <p>${product.description}</p>
+                    </div>
+                </div>
+            `;
+            
+            // Mostra a página de detalhes e esconde a principal
+            document.getElementById('main-page').style.display = 'none';
+            document.getElementById('product-detail-page').style.display = 'block';
+        }
+
+        // Função para voltar para a página principal
+        function showMainPage() {
+            document.getElementById('main-page').style.display = 'block';
+            document.getElementById('product-detail-page').style.display = 'none';
+        }
+
+        // Função para adicionar ao carrinho
+        function addToCart(productId, quantity = 1) {
+            const product = sampleProducts.find(p => p.id === productId);
+            if (!product) return;
+            
+            // Verifica se o produto já está no carrinho
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity = (existingItem.quantity || 1) + quantity;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: quantity
+                });
             }
+            
+            updateCartCount();
+            alert(`${quantity} ${product.name} ${quantity > 1 ? 'foram' : 'foi'} adicionado${quantity > 1 ? 's' : ''} ao carrinho!`);
+        }
+
+        // Função para comprar agora
+        function buyNow(productId, quantity = 1) {
+            addToCart(productId, quantity);
+            document.getElementById('cart-btn').click();
         }
 
         // Função para remover do carrinho
@@ -533,15 +880,15 @@
         function toggleWishlist(productId) {
             const product = sampleProducts.find(p => p.id === productId);
             const index = wishlist.findIndex(item => item.id === productId);
-            const icon = document.querySelector(`.wishlist-icon[onclick="toggleWishlist(${productId})"]`);
+            const icons = document.querySelectorAll(`.wishlist-icon[onclick="toggleWishlist(${productId})"]`);
             
             if (index === -1) {
                 wishlist.push({...product});
-                icon.classList.add('active');
+                icons.forEach(icon => icon.classList.add('active'));
                 alert(`${product.name} foi adicionado à lista de desejos!`);
             } else {
                 wishlist.splice(index, 1);
-                icon.classList.remove('active');
+                icons.forEach(icon => icon.classList.remove('active'));
             }
         }
 
@@ -563,12 +910,13 @@
 
         // Função para calcular total do carrinho
         function calculateTotal() {
-            return cart.reduce((total, item) => total + item.price, 0);
+            return cart.reduce((total, item) => total + (item.price * (item.quantity || 1)), 0);
         }
 
         // Função para atualizar contador do carrinho
         function updateCartCount() {
-            document.getElementById('cart-count').textContent = cart.length;
+            const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            document.getElementById('cart-count').textContent = totalItems;
         }
 
         // Função para abrir modal genérico
