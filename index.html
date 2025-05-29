@@ -1572,14 +1572,21 @@
                 const email = document.getElementById('login-email').value;
                 const password = document.getElementById('login-password').value;
                 
-                // Simulação de login
-                if (email && password) {
-                    // Verifica se é admin
-                    if (email === 'admin@megashop.com' && password === 'admin123') {
-                        isAdmin = true;
-                        document.getElementById('admin-btn').style.display = 'inline-block';
-                    }
+                // Verifica se é admin
+                if (email === 'acdef0612@gmail.com' && password === 'mamutipa08') {
+                    isAdmin = true;
+                    document.getElementById('admin-btn').style.display = 'inline-block';
+                    document.getElementById('login-btn').style.display = 'none';
+                    document.getElementById('logout-btn').style.display = 'inline-block';
+                    document.getElementById('login-modal').style.display = 'none';
                     
+                    // Limpa o formulário
+                    this.reset();
+                    return;
+                }
+                
+                // Simulação de login para usuários normais
+                if (email && password) {
                     document.getElementById('login-btn').style.display = 'none';
                     document.getElementById('logout-btn').style.display = 'inline-block';
                     document.getElementById('login-modal').style.display = 'none';
@@ -2120,5 +2127,3 @@
     </script>
 </body>
 </html>
-
-       
