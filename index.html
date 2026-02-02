@@ -1,100 +1,318 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Spa - Cuidado Premium para seu Veículo</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<title>Lava Jato – Agendamento Online</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            line-height: 1.6;
-            color: #333;
-        }
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f6fa;
+}
 
-        html {
-            scroll-behavior: smooth;
-        }
+header {
+    background: #111;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+}
 
-        /* Navbar */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: white;
-            border-bottom: 1px solid #e5e7eb;
-        }
+.container {
+    padding: 20px;
+}
 
-        .navbar-container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 64px;
-        }
+.hidden {
+    display: none;
+}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-        }
+/* LOGIN */
+.login-box {
+    max-width: 400px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,.1);
+}
 
-        .logo-icon {
-            background: #111827;
-            border-radius: 50%;
-            padding: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.login-box input, .login-box button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+}
 
-        .logo-text {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #111827;
-        }
+.login-box button {
+    background: #111;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
 
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
+/* SERVIÇOS */
+.services {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
 
-        .nav-link {
-            background: none;
-            border: none;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #6b7280;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
+.service-card {
+    min-width: 220px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,0,0,.08);
+}
 
-        .nav-link:hover,
-        .nav-link.active {
-            color: #06b6d4;
-        }
+.service-card h3 {
+    margin: 0;
+}
 
-        .btn-primary {
-            background: #06b6d4;
-            color: white;
-            border: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+.service-card small {
+    color: #666;
+}
+
+/* MODAL */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: #fff;
+    width: 95%;
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.calendar input {
+    width: 100%;
+    padding: 10px;
+}
+
+/* HORÁRIOS */
+.slots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.slot {
+    padding: 10px;
+    text-align: center;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.slot.free {
+    background: #e8f9ee;
+    color: #0a7a35;
+}
+
+.slot.busy {
+    background: #fdeaea;
+    color: #b00020;
+    cursor: not-allowed;
+}
+
+.slot.selected {
+    outline: 3px solid #111;
+}
+
+/* BOTÃO */
+.confirm-btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 15px;
+    background: #111;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+/* AGENDAMENTOS */
+.appointment {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>Lava Jato Premium</h2>
+</header>
+
+<!-- LOGIN -->
+<div id="login" class="login-box">
+<h3>Login do Cliente</h3>
+<input id="name" placeholder="Nome completo">
+<input id="email" placeholder="E-mail">
+<input id="phone" placeholder="Telefone">
+<button onclick="login()">Entrar</button>
+</div>
+
+<!-- APP -->
+<div id="app" class="container hidden">
+
+<h3>Meus Serviços</h3>
+
+<div class="services" id="services"></div>
+
+<h3>Meus Agendamentos</h3>
+<div id="appointments"></div>
+
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal hidden">
+<div class="modal-content">
+<h3 id="modalService"></h3>
+<small id="modalDuration"></small>
+
+<div class="calendar">
+<input type="date" id="datePicker">
+</div>
+
+<div class="slots" id="slots"></div>
+
+<button class="confirm-btn" onclick="confirmBooking()">Finalizar Agendamento</button>
+</div>
+</div>
+
+<script>
+const INTERVAL = 10;
+let selectedService = null;
+let selectedSlot = null;
+
+const services = [
+ { id:1, name:"Lavagem Simples", duration:30 },
+ { id:2, name:"Lavagem Completa", duration:60 },
+ { id:3, name:"Detalhamento", duration:90 }
+];
+
+let bookings = JSON.parse(localStorage.getItem("bookings") || "[]");
+
+function login(){
+ localStorage.setItem("user", JSON.stringify({
+  name: name.value, email: email.value, phone: phone.value
+ }));
+ showApp();
+}
+
+function showApp(){
+ login.classList.add("hidden");
+ app.classList.remove("hidden");
+ renderServices();
+ renderAppointments();
+}
+
+if(localStorage.getItem("user")) showApp();
+
+function renderServices(){
+ servicesDiv = document.getElementById("services");
+ servicesDiv.innerHTML = "";
+ services.forEach(s=>{
+  let div = document.createElement("div");
+  div.className = "service-card";
+  div.innerHTML = `<h3>${s.name}</h3><small>Duração: ${s.duration} min</small>`;
+  div.onclick = ()=>openModal(s);
+  servicesDiv.appendChild(div);
+ });
+}
+
+function openModal(service){
+ selectedService = service;
+ selectedSlot = null;
+ modal.classList.remove("hidden");
+ modalService.innerText = service.name;
+ modalDuration.innerText = `Duração: ${service.duration} minutos`;
+ datePicker.valueAsDate = new Date();
+ renderSlots();
+}
+
+datePicker.onchange = renderSlots;
+
+function renderSlots(){
+ slots.innerHTML = "";
+ let date = datePicker.value;
+ if(!date) return;
+
+ for(let h=8; h<=18; h++){
+  for(let m=0; m<60; m+=INTERVAL){
+   let time = `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}`;
+   let free = isSlotFree(date,time);
+   let div = document.createElement("div");
+   div.className = "slot " + (free?"free":"busy");
+   div.innerText = time;
+   if(free){
+    div.onclick = ()=>{
+     document.querySelectorAll(".slot").forEach(s=>s.classList.remove("selected"));
+     div.classList.add("selected");
+     selectedSlot = time;
+    }
+   }
+   slots.appendChild(div);
+  }
+ }
+}
+
+function isSlotFree(date,start){
+ let blocks = selectedService.duration / INTERVAL;
+ let [h,m] = start.split(":").map(Number);
+ for(let i=0;i<blocks;i++){
+  let tH = h;
+  let tM = m + i*INTERVAL;
+  if(tM>=60){ tH++; tM-=60; }
+  let t = `${String(tH).padStart(2,"0")}:${String(tM).padStart(2,"0")}`;
+  if(bookings.find(b=>b.date===date && b.time===t)) return false;
+ }
+ return true;
+}
+
+function confirmBooking(){
+ if(!selectedSlot) return alert("Escolha um horário disponível.");
+ bookings.push({
+  service: selectedService.name,
+  duration: selectedService.duration,
+  date: datePicker.value,
+  time: selectedSlot
+ });
+ localStorage.setItem("bookings", JSON.stringify(bookings));
+ modal.classList.add("hidden");
+ alert("Agendamento realizado com sucesso!");
+ renderAppointments();
+}
+
+function renderAppointments(){
+ appointments.innerHTML = "";
+ bookings.forEach(b=>{
+  appointments.innerHTML += `
+   <div class="appointment">
+    <strong>${b.service}</strong><br>
+    ${b.date} às ${b.time} (${b.duration} min)
+   </div>
+  `;
+ });
+}
+
+modal.onclick = e=>{
+ if(e.target === modal) modal.classList.add("hidden");
+}
+</script>
+
+</body>
+</html>
